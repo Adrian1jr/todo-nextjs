@@ -3,9 +3,32 @@ import Link from "next/link";
 import React from "react";
 import { CiBookmarkCheck, CiLogout } from "react-icons/ci";
 import { SidebarItem } from "./SidebarItem";
+import { IoCheckboxOutline, IoListOutline } from "react-icons/io5";
+
+interface MenuItem {
+  title: string;
+  path: string;
+  icon: React.ReactNode;
+}
 
 export const Sidebar = () => {
-  const menuItems = [{ title: "Dashboard", Icon: CiBookmarkCheck, size: 30 }];
+  const menuItems: MenuItem[] = [
+    {
+      icon: <CiBookmarkCheck size={30} />,
+      title: "Dashboard",
+      path: "/dashboard",
+    },
+    {
+      icon: <IoCheckboxOutline size={30} />,
+      title: "Rest TODOS",
+      path: "/dashboard/rest-todos",
+    },
+    {
+      icon: <IoListOutline size={30} />,
+      title: "Server Actions",
+      path: "/server-actions",
+    },
+  ];
 
   return (
     <aside className="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
@@ -36,13 +59,8 @@ export const Sidebar = () => {
         </div>
 
         <ul className="space-y-2 tracking-wide mt-8">
-          {menuItems.map((item, index) => (
-            <SidebarItem
-              key={index}
-              title={item.title}
-              Icon={item.Icon}
-              size={item.size}
-            />
+          {menuItems.map(({ title, path, icon }, index) => (
+            <SidebarItem key={index} title={title} path={path} icon={icon} />
           ))}
         </ul>
       </div>
