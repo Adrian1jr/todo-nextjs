@@ -38,13 +38,11 @@ export async function POST(request: NextRequest) {
 }
 
 //Eliminar un todo
-export async function DELETE(request: NextRequest) {
-  const { id } = await request.json();
-  if (!id) {
-    return NextResponse.json({ error: "Id es requerido" }, { status: 400 });
+export async function DELETE() {
+  try {
+    await prisma.todo.deleteMany({ where: { complete: true } });
+    return NextResponse.json("Borrados");
+  } catch (error) {
+    return NextResponse.json(error, { status: 400 });
   }
-
-  const deleteTodo = await prisma.todo.delete({ where: { id: String(id) } });
-
-  return NextResponse.json({ message: "DELETE /api/todos", data: deleteTodo });
 }
