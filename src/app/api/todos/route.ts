@@ -37,28 +37,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-const putSchema = yup.object().shape({
-  id: yup.string().required(),
-  description: yup.string().required(),
-});
-
-//Actualizar un todo
-export async function PUT(request: NextRequest) {
-  const { id, description } = await putSchema.validate(await request.json());
-
-  const todo = await prisma.todo.findUnique({ where: { id: String(id) } });
-  if (!todo) {
-    return NextResponse.json({ error: "Todo no encontrado" }, { status: 404 });
-  }
-
-  const updateTodo = await prisma.todo.update({
-    where: { id: String(id) },
-    data: { description },
-  });
-
-  return NextResponse.json({ message: "PUT /api/todos", data: updateTodo });
-}
-
 //Eliminar un todo
 export async function DELETE(request: NextRequest) {
   const { id } = await request.json();
